@@ -1,0 +1,4 @@
+<?
+$connect = mysql_connect("localhost", "onedaytoz", "1234");
+$mysql = mysql_select_db("onedaytoz", $connect);
+?>

@@ -1,0 +1,40 @@
+<html>
+	<head>
+		<title>Oneday Toz</title>
+	</head>
+	<body>
+		<div>
+			Session Check
+		</div>
+		<div>
+			<form method="post" action="../?category=session&action=check">
+				userid: <input type="text" name="userid" value="test" size="32" /><br />
+				session: <input type="text" name="session" value="TESTSSN3" size="8" /><br />
+				<input type="submit" value="Check" />
+			</form>
+		</div>
+		<br />
+		<div>
+			Session Connect
+		</div>
+		<div>
+			<form method="post" action="../?category=session&action=connect">
+				userid: <input type="text" name="userid" value="test" size="32" /><br />
+				agentid: <input type="text" name="agentid" value="ONEDAYTOZ-Android" size="32" /><br />
+				deviceid: <input type="text" name="deviceid" value="asdlf379j324-adlfjsdal-adlfkldsafl-sdasd" size="40" /><br />
+				<input type="submit" value="Connect" />
+			</form>
+		</div>
+		<br />
+		<div>
+			Session Disconnect
+		</div>
+		<div>
+			<form method="post" action="../?category=session&action=disconnect">
+				userid: <input type="text" name="userid" value="test" size="32" /><br />
+				session: <input type="text" name="session" value="TESTSSN3" size="8" /><br />
+				<input type="submit" value="Disconnect" />
+			</form>
+		</div>
+	</body>
+</html>
