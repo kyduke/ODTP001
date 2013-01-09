@@ -1,6 +1,7 @@
-<?include "../../include/dbconn.toz";?>
-
 <?
+include "../../include/dbconn.toz";
+include "../../include/global.toz";
+
 $category = $_GET["category"];
 
 if ($category != NULL)
@@ -20,7 +21,8 @@ else
 	$json = array("error" => "Invalid parameters");
 }
 
+header("Content-type: application/json");
 echo json_encode($json);
-?>
 
-<?include "../../include/dbclose.toz";?>
+include "../../include/dbclose.toz";
+?>

@@ -110,22 +110,6 @@ else
 	$json = array("error" => "Invalid parameters");
 }
 
-function getIDFromUser($userid)
-{
-	$result = mysql_query("SELECT id FROM user WHERE userid='$userid' LIMIT 1");
-	
-	if ($result != NULL)
-	{
-		$row = mysql_fetch_array($result);
-		if ($row != NULL)
-		{
-			return $row[id];
-		}
-	}
-	
-	return NULL;
-}
-
 function checkSession($uid, $session)
 {
 	$result = mysql_query("SELECT id FROM session WHERE user='$uid' AND session='$session' LIMIT 1");
@@ -145,22 +129,6 @@ function checkSession($uid, $session)
 	}
 	
 	return false;
-}
-
-function getAgentID($agentid)
-{
-	$AGENTIDS = array("ONEDAYTOZ-Android", "ONEDAYTOZ-iOS");
-	
-	$count = count($AGENTIDS);
-	for ($i = 0; $i < $count; $i++)
-	{
-		if ($AGENTIDS[$i] == $agentid)
-		{
-			return $i;
-		}
-	}
-	
-	return -1;
 }
 
 function getSession($uid, $userid, $agent, $deviceid)
