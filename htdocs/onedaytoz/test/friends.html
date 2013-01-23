@@ -1,0 +1,30 @@
+<html>
+	<head>
+		<title>Oneday Toz</title>
+		<script>
+		function add(sender, input)
+		{
+			sender.action = "../?category=friends&action=add";
+			sender.data.value = '{"userid": "' + input.userid.value + '", "agentid": "' + input.agentid.value + '"}';
+			sender.submit();
+		}
+		</script>
+	</head>
+	<body>
+		<div>
+			Add Friends
+		</div>
+		<div>
+			<form name="addInput">
+				userid: <input type="text" name="userid" value="test" size="32" /><br />
+				agentid: <input type="text" name="agentid" value="ONEDAYTOZ-Android" size="32" /><br />
+				<input type="button" value="Add" onclick="add(document.sender, document.addInput);"/>
+			</form>
+		</div>
+		<div>
+			<form name="sender" method="post">
+				<input type="hidden" name="data" />
+			</form>
+		</div>
+	</body>
+</html>

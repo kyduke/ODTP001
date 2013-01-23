@@ -1,39 +1,66 @@
 <html>
 	<head>
 		<title>Oneday Toz</title>
+		<script>
+		function check(sender, input)
+		{
+			sender.action = "../?category=session&action=check";
+			sender.data.value = '{"userid": "' + input.userid.value + '", "session": "' + input.session.value + '"}';
+			sender.submit();
+		}
+		
+		function connect(sender, input)
+		{
+			sender.action = "../?category=session&action=connect";
+			sender.data.value = '{"userid": "' + input.userid.value + '", "agentid": "' + input.agentid.value + '", "deviceid": "' + input.deviceid.value + '"}';
+			sender.submit();
+		}
+		
+		function disconnect(sender, input)
+		{
+			sender.action = "../?category=session&action=disconnect";
+			sender.data.value = '{"userid": "' + input.userid.value + '", "session": "' + input.session.value + '"}';
+			sender.submit();
+		}
+		</script>
 	</head>
 	<body>
 		<div>
-			Session Check
+			Check Session
 		</div>
 		<div>
-			<form method="post" action="../?category=session&action=check">
+			<form name="checkInput">
 				userid: <input type="text" name="userid" value="test" size="32" /><br />
 				session: <input type="text" name="session" value="TESTSSN3" size="8" /><br />
-				<input type="submit" value="Check" />
+				<input type="button" value="Check" onclick="check(document.sender, document.checkInput);"/>
 			</form>
 		</div>
 		<br />
 		<div>
-			Session Connect
+			Connect Session
 		</div>
 		<div>
-			<form method="post" action="../?category=session&action=connect">
+			<form name="connectInput">
 				userid: <input type="text" name="userid" value="test" size="32" /><br />
 				agentid: <input type="text" name="agentid" value="ONEDAYTOZ-Android" size="32" /><br />
 				deviceid: <input type="text" name="deviceid" value="asdlf379j324-adlfjsdal-adlfkldsafl-sdasd" size="40" /><br />
-				<input type="submit" value="Connect" />
+				<input type="button" value="Connect" onclick="connect(document.sender, document.connectInput);"/>
 			</form>
 		</div>
 		<br />
 		<div>
-			Session Disconnect
+			Disconnect Session
 		</div>
 		<div>
-			<form method="post" action="../?category=session&action=disconnect">
+			<form name="disconnectInput">
 				userid: <input type="text" name="userid" value="test" size="32" /><br />
 				session: <input type="text" name="session" value="TESTSSN3" size="8" /><br />
-				<input type="submit" value="Disconnect" />
+				<input type="button" value="Disconnect" onclick="disconnect(document.sender, document.disconnectInput);"/>
+			</form>
+		</div>
+		<div>
+			<form name="sender" method="post">
+				<input type="hidden" name="data" />
 			</form>
 		</div>
 	</body>

@@ -128,4 +128,4 @@ else
 }
 ?>
 
-<?include "../../include/dbclose.toz";?>
+<?include "../../../include/dbclose.toz";?>

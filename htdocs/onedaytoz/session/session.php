@@ -4,113 +4,108 @@ if ($category == NULL)
 	exit();
 }
 
-$action = $_GET["action"];
-
-if ($action != NULL)
+function categoryMain($action, $data)
 {
 	if ($action == "check")
 	{
-		$userid = $_POST["userid"];
-		$session = $_POST["session"];
-		
-		if ($userid != NULL && $session != NULL)
-		{
-			$uid = getIDFromUser($userid);
-			if ($uid != NULL)
-			{
-				$check = checkSession($uid, $session);
-				$json = array("check" => $check);
-			}
-			else
-			{
-				$json = array("error" => "Unregistered user");
-			}
-		}
-		else
-		{
-			$json = array("error" => "Invalid parameters");
-		}
+		return checkSession($data);
 	}
 	else if ($action == "connect")
 	{
-		$userid = $_POST["userid"];
-		$agentid = $_POST["agentid"];
-		$deviceid = $_POST["deviceid"];
-		
-		if ($userid != NULL && $agentid != NULL && $deviceid != NULL)
-		{
-			$uid = getIDFromUser($userid);
-			if ($uid != NULL)
-			{
-				$agent = getAgentID($agentid);
-				if ($agent >= 0)
-				{
-					$session = getSession($uid, $userid, $agent, $deviceid);
-					if ($session != NULL)
-					{
-						$json = array("session" => "$session");
-					}
-					else
-					{
-						$json = array("session" => $session);
-					}
-				}
-				else
-				{
-					$json = array("error" => "Invalid parameters");
-				}
-			}
-			else
-			{
-				$json = array("error" => "Unregistered user");
-			}
-		}
-		else
-		{
-			$json = array("error" => "Invalid parameters");
-		}
+		return connectSession($data);
 	}
 	else if ($action == "disconnect")
 	{
-		$userid = $_POST["userid"];
-		$session = $_POST["session"];
-		
-		if ($userid != NULL && $session != NULL)
-		{
-			$uid = getIDFromUser($userid);
-			if ($uid != NULL)
-			{
-				$result = deleteSession($uid, $session);
-				if ($result == true)
-				{
-					$json = array("session" => NULL);
-				}
-				else
-				{
-					$json = array("error" => "Not exist session");
-				}
-			}
-			else
-			{
-				$json = array("error" => "Unregistered user");
-			}
-		}
-		else
-		{
-			$json = array("error" => "Invalid parameters");
-		}
+		return disconnectSession($data);
 	}
-	else
-	{
-		$json = array("error" => "Unknown parameters");
-	}
-}
-else
-{
-	$json = array("error" => "Invalid parameters");
+	
+	return array("error" => "Unknown parameters");
 }
 
-function checkSession($uid, $session)
+function checkSession($data)
+{
+	$userid = $data->{"userid"};
+	$session = $data->{"session"};
+	
+	if ($userid == NULL || $session == NULL)
+	{
+		return array("error" => "Invalid parameters");
+	}
+	
+	$uid = getIDFromUser($userid);
+	if ($uid != NULL)
+	{
+		$check = checkUserSession($uid, $session);
+		return array("check" => $check);
+	}
+	
+	return array("error" => "Unregistered user");
+}
+
+function connectSession($data)
+{
+	$userid = $data->{"userid"};
+	$agentid = $data->{"agentid"};
+	$deviceid = $data->{"deviceid"};
+	
+	if ($userid == NULL || $agentid == NULL || $deviceid == NULL)
+	{
+		return array("error" => "Invalid parameters");
+	}
+	
+	$uid = getIDFromUser($userid);
+	if ($uid == NULL)
+	{
+		return array("error" => "Unregistered user");
+	}
+	
+	$agent = getAgentID($agentid);
+	if ($agent < 0)
+	{
+		return array("error" => "Invalid parameters");
+	}
+	
+	$session = getSession($uid, $userid, $agent, $deviceid);
+	if ($session != NULL)
+	{
+		return array("session" => "$session");
+	}
+	
+	return array("session" => NULL);
+}
+
+function disconnectSession($data)
+{
+	$userid = $data->{"userid"};
+	$session = $data->{"session"};
+	
+	if ($userid == NULL || $session == NULL)
+	{
+		return array("error" => "Invalid parameters");
+	}
+	
+	$uid = getIDFromUser($userid);
+	if ($uid == NULL)
+	{
+		return array("error" => "Unregistered user");
+	}
+	
+	$check = checkUserSession($uid, $session);
+	if ($check != true)
+	{
+		return array("error" => "Not exist session");
+	}
+	
+	$result = deleteSession($uid, $session);
+	if ($result == true)
+	{
+		return array("session" => NULL);
+	}
+	
+	return array("error" => "Not exist session");
+}
+
+function checkUserSession($uid, $session)
 {
 	$result = mysql_query("SELECT id FROM session WHERE user='$uid' AND session='$session' LIMIT 1");
 	

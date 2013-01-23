@@ -1,27 +1,47 @@
 <html>
 	<head>
 		<title>Oneday Toz</title>
+		<script>
+		function check(sender, input)
+		{
+			sender.action = "../?category=user&action=check";
+			sender.data.value = '{"userid": "' + input.userid.value + '", "agentid": "' + input.agentid.value + '"}';
+			sender.submit();
+		}
+		
+		function join(sender, input)
+		{
+			sender.action = "../?category=user&action=join";
+			sender.data.value = '{"userid": "' + input.userid.value + '", "agentid": "' + input.agentid.value + '"}';
+			sender.submit();
+		}
+		</script>
 	</head>
 	<body>
 		<div>
-			User Check
+			Check User
 		</div>
 		<div>
-			<form method="post" action="../?category=user&action=check">
+			<form name="checkInput">
 				userid: <input type="text" name="userid" value="test" size="32" /><br />
 				agentid: <input type="text" name="agentid" value="ONEDAYTOZ-Android" size="32" /><br />
-				<input type="submit" value="Check" />
+				<input type="button" value="Check" onclick="check(document.sender, document.checkInput);"/>
 			</form>
 		</div>
 		<br />
 		<div>
-			User Join
+			Join User
 		</div>
 		<div>
-			<form method="post" action="../?category=user&action=join">
+			<form name="joinInput">
 				userid: <input type="text" name="userid" value="test" size="32" /><br />
 				agentid: <input type="text" name="agentid" value="ONEDAYTOZ-Android" size="32" /><br />
-				<input type="submit" value="Join" />
+				<input type="button" value="Join" onclick="join(document.sender, document.joinInput);"/>
+			</form>
+		</div>
+		<div>
+			<form name="sender" method="post">
+				<input type="hidden" name="data" />
 			</form>
 		</div>
 	</body>

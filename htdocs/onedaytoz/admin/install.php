@@ -52,6 +52,7 @@ CREATE TABLE IF NOT EXISTS $table (
 id int(8) NOT NULL auto_increment,
 owner int(8),
 friend int(8),
+visited int(1),
 primary key (id)
 )";
 
@@ -184,4 +185,4 @@ else
 }
 ?>
 
-<?include "../../include/dbclose.toz";?>
+<?include "../../../include/dbclose.toz";?>

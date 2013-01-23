@@ -4,78 +4,76 @@ if ($category == NULL)
 	exit();
 }
 
-$action = $_GET["action"];
-
-if ($action != NULL)
+function categoryMain($action, $data)
 {
 	if ($action == "check")
 	{
-		$userid = $_POST["userid"];
-		$agentid = $_POST["agentid"];
-		
-		if ($userid != NULL && $agentid != NULL)
-		{
-			$agent = getAgentID($agentid);
-			if ($agent >= 0)
-			{
-				$uid = getIDFromUser($userid);
-				if ($uid != NULL)
-				{
-					$json = array("check" => TRUE);
-				}
-				else
-				{
-					$json = array("check" => FALSE);
-				}
-			}
-			else
-			{
-				$json = array("error" => "Invalid parameters");
-			}
-		}
+		return checkUser($data);
 	}
 	else if ($action == "join")
 	{
-		$userid = $_POST["userid"];
-		$agentid = $_POST["agentid"];
+		return joinUser($data);
+	}
+	
+	return array("error" => "Unknown parameters");
+}
+
+function checkUser($data)
+{
+	$userid = $data->{"userid"};
+	$agentid = $data->{"agentid"};
 		
-		if ($userid != NULL && $agentid != NULL)
-		{
-			$agent = getAgentID($agentid);
-			if ($agent >= 0)
-			{
-				$uid = getIDFromUser($userid);
-				if ($uid != NULL)
-				{
-					$json = array("join" => TRUE);
-				}
-				else
-				{
-					$uid = addUser($userid);
-					if ($uid != NULL)
-					{
-						$json = array("join" => TRUE);
-					}
-					else
-					{
-						$json = array("join" => FALSE);
-					}
-				}
-			}
-			else
-			{
-				$json = array("error" => "Invalid parameters");
-			}
-		}
+	if ($userid == NULL || $agentid == NULL)
+	{
+		return array("error" => "Invalid parameters");
+	}
+	
+	$agent = getAgentID($agentid);
+	if ($agent < 0)
+	{
+		return array("error" => "Invalid parameters");
+	}
+	
+	$uid = getIDFromUser($userid);
+	if ($uid != NULL)
+	{
+		return array("check" => TRUE);
+	}
+	
+	return array("check" => FALSE);
+}
+
+function joinUser($data)
+{
+	$userid = $data->{"userid"};
+	$agentid = $data->{"agentid"};
+	
+	if ($userid == NULL || $agentid == NULL)
+	{
+		return array("error" => "Invalid parameters");
+	}
+	
+	$agent = getAgentID($agentid);
+	if ($agent < 0)
+	{
+		return array("error" => "Invalid parameters");
+	}
+	
+	$uid = getIDFromUser($userid);
+	if ($uid != NULL)
+	{
+		return array("join" => TRUE);
 	}
 	else
 	{
-		$json = array("error" => "Unknown parameters");
+		$uid = addUser($userid);
+		if ($uid != NULL)
+		{
+			return array("join" => TRUE);
+		}
 	}
-}
-else
-{
-	$json = array("error" => "Invalid parameters");
+	
+	return array("join" => FALSE);
 }
 
 function addUser($userid)
