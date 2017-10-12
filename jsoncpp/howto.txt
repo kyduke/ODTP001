@@ -1,0 +1,22 @@
+C++ Json Parser인 JsonCpp을 Visual Studio 2010에서 사용하는 방법
+ 
+1. JsonCpp 다운로드 / 빌드
+https://github.com/open-source-parsers/jsoncpp
+makefiles\msvc2010\jsoncpp.sln을 연다.
+lib_json 프로젝트 속성에 들어가서 "구성속성 > C/C++ > 코드 생성"에서
+"런타임 라이브러리"를 
+- Debug는 "다중 스레드 디버그 DLL (/MDd)"로 변경한다.
+- Release는 "다중 스레드 DLL (/MD)"로 변경한다.
+그후 F7을 눌러 Build한다.
+
+2. 설치
+include의 json 디렉토리를 vs2010 폴더 아래로 복사한다.
+C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include
+Debug lib은 lib_jsond.lib로 Release lib은 lib_json.lib로 vs2010 폴더 아래로 복사한다.
+C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\lib
+
+3. lib파일을 추가 종속성에 등록
+프로젝트 속성의 "구성속성 > 링커 > 입력"에 들어가서 "추가 종속성"에 
+1번에서 만든 lib파일을 추가한다.
+- Debug: lib_jsond.lib
+- Release: lib_json.lib
