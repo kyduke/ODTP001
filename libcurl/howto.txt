@@ -1,0 +1,18 @@
+1. curl 다운로드
+https://curl.haxx.se/download.html
+curl-7.56.0.zip
+
+2. 빌드
+curl-7.56.0\projects\Windows\VC10 에서 sln 실행하고 Debug, Release 모두 빌드한다.
+
+3. 설치
+curl-7.56.0\build\Win32\VC10에 빌드된 Debug, Release 라이브러리를
+vs2010 라이브러리 폴더로 복사한다.
+curl 헤더파일도 include 폴더로 복사한다.
+
+4. 설정
+속성 > C/C++ > Preprocessor 에 CURL_STATICLIB; 를 추가한다.
+속성 > Linker > Input 에 다음을 추가한다.
+- Debug: libcurld.lib;ws2_32.lib;wldap32.lib;
+- Release: libcurl.lib;ws2_32.lib;wldap32.lib;
+
